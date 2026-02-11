@@ -24,36 +24,39 @@ const UserContext = ({ children }) => {
   }
 
   // 🌐 NODE API CALL (Gemini backend)
-  async function aiResponse(promptText) {
-    setspeaking(true);
-    setResponse(true);
-    setPrompt("Thinking...");
+ async function aiResponse(promptText) {
+  setspeaking(true);
+  setResponse(true);
+  setPrompt("Thinking...");
 
-    try {
-      const res = await fetch("http://localhost:5000/ask", {
+  try {
+    const res = await fetch(
+      "https://shifra-ai-speaker.onrender.com/ask",
+      {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ question: promptText }),
-      });
+      }
+    );
 
-      const data = await res.json();
+    const data = await res.json();
 
-      let newText = data.answer
-        .replace(/\*\*/g, "")
-        .replace(/\*/g, "")
-        .replace(/google/gi, "Harshita Dewani")
-        .slice(0, 250);
+    let newText = data.answer
+      .replace(/\*\*/g, "")
+      .replace(/\*/g, "")
+      .replace(/google/gi, "Harshita Dewani")
+      .slice(0, 250);
 
-      setPrompt(newText);
-      speak(newText);
-
-    } catch (err) {
-      setPrompt("Server error 😅");
-      setspeaking(false);
-    }
+    setPrompt(newText);
+    speak(newText);
+  } catch (err) {
+    setPrompt("Server error 😅");
+    setspeaking(false);
   }
+}
+
 
   useEffect(() => {
     const SpeechRecognition =
