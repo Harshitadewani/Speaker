@@ -30,16 +30,12 @@ const UserContext = ({ children }) => {
   setPrompt("Thinking...");
 
   try {
-    const res = await fetch(
-      "https://shifra-ai-speaker.onrender.com/ask",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ question: promptText }),
-      }
-    );
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/ask`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ question: promptText }),
+});
+
 
     const data = await res.json();
 
